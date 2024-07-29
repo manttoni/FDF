@@ -1,5 +1,5 @@
 # Source files
-SRCS = grid.c draw.c error.c fdf.c
+SRCS = math.c grid.c draw.c error.c fdf.c
 
 # Object files
 OBJS = $(SRCS:.c=.o)

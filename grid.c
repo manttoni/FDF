@@ -9,6 +9,7 @@ static void	set_dimensions(t_grid *grid, char *file)
 	line = get_next_line(fd);
 	grid->width = ft_countchar(line, ' ') + 1;
 	grid->height = 0;
+	grid->depth = 0;
 	while (line)
 	{
 		free(line);
@@ -38,6 +39,7 @@ static void	set_coords(t_grid *grid, char *file)
 			grid->coordinates[y][x].z = ft_atoi(row_values[x]);
 			grid->coordinates[y][x].y = y;
 			grid->coordinates[y][x].x = x;
+			grid->depth = max(grid->depth, ft_atoi(row_values[x]));
 			x++;
 		}
 		free(row_values);
