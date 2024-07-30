@@ -35,7 +35,7 @@ int	main(int argc, char **argv)
 	t_data	data;
 	t_grid	*grid;
 
-	if (argc != 2 || init_data(&data, 1500, 1000) == 1)
+	if (argc != 2 || init_data(&data, 1000, 1000) == 1)
 		return (1);
 	mlx_key_hook(data.win, handle_key, &data);
 	grid = create_grid(argv[1]);	

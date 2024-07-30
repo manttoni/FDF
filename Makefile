@@ -28,7 +28,7 @@ fdf: $(OBJS) $(LIBS)
 
 # Rule to build object files from source files
 %.o: %.c
-	cc -Wall -Wextra -Werror $(INCLUDES) -c $< -o $@
+	cc -g -Wall -Wextra -Werror $(INCLUDES) -c $< -o $@
 
 # Rules to build libraries
 $(MLX):

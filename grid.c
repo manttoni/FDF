@@ -1,5 +1,22 @@
 #include "fdf.h"
 
+static int	count_len(char *line)
+{
+	int	len;
+
+	len = 0;
+	while (*line)
+	{
+		while (*line && *line == ' ')
+			line++;
+		if (*line)
+			len++;
+		while (*line && *line != ' ')
+			line++;
+	}
+	return (len);
+}
+
 static void	set_dimensions(t_grid *grid, char *file)
 {
 	char	*line;
@@ -7,7 +24,7 @@ static void	set_dimensions(t_grid *grid, char *file)
 
 	fd = open(file, O_RDONLY);
 	line = get_next_line(fd);
-	grid->width = ft_countchar(line, ' ') + 1;
+	grid->width = count_len(line);
 	grid->height = 0;
 	grid->depth = 0;
 	while (line)
@@ -36,6 +53,7 @@ static void	set_coords(t_grid *grid, char *file)
 		row_values = ft_split(line, ' ');
 		while (x < grid->width)
 		{
+			ft_printf("row_values[x] = %s\n", row_values[x]);
 			grid->coordinates[y][x].z = ft_atoi(row_values[x]);
 			grid->coordinates[y][x].y = y;
 			grid->coordinates[y][x].x = x;
