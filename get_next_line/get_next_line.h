@@ -23,5 +23,8 @@
 char	*get_next_line(int fd);
 char	*gnl_join(char *dst, char *src, size_t len);
 void	gnl_copy(char *dst, char *src);
+char	*gnl_strchr(char *str, char chr);
+void	gnl_bzero(char *buffer, size_t size);
+size_t	gnl_strlen(char *s);
 
 #endif

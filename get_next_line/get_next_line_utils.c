@@ -23,7 +23,7 @@ char	*gnl_join(char *dst, char *src, size_t len)
 		return (dst);
 	if (dst == NULL || src == NULL)
 		return (NULL);
-	bytes = ft_strlen(dst) + len + 1;
+	bytes = gnl_strlen(dst) + len + 1;
 	ret = malloc(bytes);
 	if (ret == NULL)
 	{
@@ -48,7 +48,7 @@ void	gnl_copy(char *dst, char *src)
 	*dst = '\0';
 }
 
-char    *ft_strchr(char *str, char chr)
+char    *gnl_strchr(char *str, char chr)
 {
         while (*str)
         {
@@ -59,13 +59,13 @@ char    *ft_strchr(char *str, char chr)
         return (NULL);
 }
 
-void    ft_bzero(char *buffer, size_t size)
+void    gnl_bzero(char *buffer, size_t size)
 {
         while (size-- > 0)
                 buffer[size] = '\0';
 }
 
-size_t  ft_strlen(char *s)
+size_t  gnl_strlen(char *s)
 {
         size_t  len;
 

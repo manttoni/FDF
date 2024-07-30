@@ -20,7 +20,7 @@ static int	init(char **next_line, char **nl_chr, char *buffer, int fd)
 	if (*next_line == NULL)
 		return (0);
 	**next_line = '\0';
-	*nl_chr = ft_strchr(buffer, '\n');
+	*nl_chr = gnl_strchr(buffer, '\n');
 	return (1);
 }
 
@@ -28,7 +28,7 @@ static int	read_to_buffer(int fd, char *buffer, char **next_line)
 {
 	ssize_t	bytes_read;
 
-	ft_bzero(buffer, BUFFER_SIZE + 1);
+	gnl_bzero(buffer, BUFFER_SIZE + 1);
 	bytes_read = read(fd, buffer, BUFFER_SIZE);
 	if (bytes_read < 0)
 	{
@@ -58,7 +58,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	while (nl_chr == NULL)
 	{
-		next_line = gnl_join(next_line, buffer, ft_strlen(buffer));
+		next_line = gnl_join(next_line, buffer, gnl_strlen(buffer));
 		if (!next_line)
 			return (NULL);
 		read_result = read_to_buffer(fd, buffer, &next_line);
@@ -66,7 +66,7 @@ char	*get_next_line(int fd)
 			return (NULL);
 		if (read_result == 0)
 			return (next_line);
-		nl_chr = ft_strchr(buffer, '\n');
+		nl_chr = gnl_strchr(buffer, '\n');
 	}
 	next_line = gnl_join(next_line, buffer, (nl_chr - buffer) + 1);
 	if (!next_line)

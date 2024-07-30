@@ -27,6 +27,8 @@ typedef struct s_data
 {
 	void	*mlx;
 	void	*win;
+	int	height;
+	int	width;
 }	t_data;
 
 typedef struct s_coord
@@ -50,6 +52,5 @@ int		max(int a, int b);
 t_grid	*create_grid(char *file);
 void	draw_grid(t_data data, t_grid *grid);
 void	print_error(char *error_message);
-void	draw_line(t_data data, int x0, int y0, int x1, int y1);
 
 #endif
