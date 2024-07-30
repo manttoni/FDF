@@ -19,7 +19,6 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-# include "../libft/libft.h"
 
 char	*get_next_line(int fd);
 char	*gnl_join(char *dst, char *src, size_t len);

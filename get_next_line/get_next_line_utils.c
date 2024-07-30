@@ -47,3 +47,32 @@ void	gnl_copy(char *dst, char *src)
 		*dst++ = *src++;
 	*dst = '\0';
 }
+
+char    *ft_strchr(char *str, char chr)
+{
+        while (*str)
+        {
+                if (*str == chr)
+                        return (str);
+                str++;
+        }
+        return (NULL);
+}
+
+void    ft_bzero(char *buffer, size_t size)
+{
+        while (size-- > 0)
+                buffer[size] = '\0';
+}
+
+size_t  ft_strlen(char *s)
+{
+        size_t  len;
+
+        len = 0;
+        if (s == NULL)
+                return (0);
+        while (*s++)
+                len++;
+        return (len);
+}
