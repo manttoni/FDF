@@ -24,32 +24,38 @@ static void	draw_line(t_data data, int x0, int y0, int x1, int y1)
 	}
 }
 
+static void	draw_coords(t_data data, t_grid *grid, t_coord start, t_coord end)
+{
+	int	hz;
+	int	vc;
+	int	dp;
+
+	hz = data.width / (grid->width + 1);
+	vc = data.height / (grid->height + 1);
+	dp = vc / 4;
+	draw_line(data, (start.x + 1) * hz, (start.y + 1) * vc - start.z * dp, (end.x + 1) * hz, (end.y + 1) * vc - end.z * dp);
+}
+
 void	draw_grid(t_data data, t_grid *grid)
 {
-	int	i;
-	int	j;
-	int	start_x = 0;
-	int	start_y = 0;
-	int	end_x = 0;
-	//int	end_y = 0;
-	
-	j = 0;
-	while (j < grid->height)
+	int	x;
+	int	y;
+	t_coord	start;
+
+	y = 0;
+	while (y < grid->height)
 	{
-		i = 0;
-		start_x = 0;
-		end_x = 0;
-		start_y += data.height / (grid->height + 1);
-		while (i < grid->width)
+		x = 0;
+		while (x < grid->width)
 		{
-			start_x += data.width / (grid->width + 1);
-			end_x = start_x + data.width / (grid->width + 1);
-			if (i < grid->width - 1)
-				draw_line(data, start_x, start_y, end_x, start_y);
-			if (j < grid->height - 1)
-				draw_line(data, start_x, start_y, start_x, start_y + data.height / grid->height);
-			i++;
+			start = grid->coordinates[y][x];
+			if (x + 1 < grid->width)
+				draw_coords(data, grid, start, grid->coordinates[y][x + 1]);
+			if (y + 1 < grid->height)
+				draw_coords(data, grid, start, grid->coordinates[y + 1][x]);
+			x++;
 		}
-		j++;
+		y++;
 	}
 }
+

@@ -10,7 +10,7 @@ int	handle_key(int key, t_data *data)
 	return (0);
 }
 
-static int	init_data(t_data *data, int height, int width)
+static int	init_data(t_data *data, int width, int height)
 {
 	data->mlx = mlx_init();
 	if (data->mlx == NULL)
@@ -18,7 +18,7 @@ static int	init_data(t_data *data, int height, int width)
 		print_error("Failed to initialize mlx\n");
 		return (1);
 	}
-	data->win = mlx_new_window(data->mlx, height, width, "FDF");
+	data->win = mlx_new_window(data->mlx, width, height, "FDF");
 	if (data->win == NULL)
 	{
 		print_error("Failed to create window\n");
@@ -35,7 +35,7 @@ int	main(int argc, char **argv)
 	t_data	data;
 	t_grid	*grid;
 
-	if (argc != 2 || init_data(&data, 1000, 1000) == 1)
+	if (argc != 2 || init_data(&data, 1500, 1000) == 1)
 		return (1);
 	mlx_key_hook(data.win, handle_key, &data);
 	grid = create_grid(argv[1]);	
