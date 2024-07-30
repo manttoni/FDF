@@ -34,7 +34,7 @@ static void	draw_coords(t_data data, t_grid *grid, t_coord start, t_coord end)
 	shift_x = 5;
 	hz = data.width / (grid->width + 1);
 	vc = data.height / (grid->height + 1) / 2;
-	dp = vc / 4;
+	dp = vc / 8;
 	draw_line(data, (start.x + 1) * hz + start.y * shift_x, 
 			(start.y + 1) * vc - start.z * dp, 
 			(end.x + 1) * hz + end.y * shift_x, 

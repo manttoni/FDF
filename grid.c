@@ -53,7 +53,6 @@ static void	set_coords(t_grid *grid, char *file)
 		row_values = ft_split(line, ' ');
 		while (x < grid->width)
 		{
-			ft_printf("row_values[x] = %s\n", row_values[x]);
 			grid->coordinates[y][x].z = ft_atoi(row_values[x]);
 			grid->coordinates[y][x].y = y;
 			grid->coordinates[y][x].x = x;
