@@ -29,16 +29,22 @@ static void	draw_coords(t_data data, t_grid *grid, t_coord start, t_coord end)
 	int	hz;
 	int	vc;
 	int	dp;
-	int	shift_x;
+	//int	shift_x;
 
-	shift_x = 5;
+	//shift_x = 5;
 	hz = data.width / (grid->width + 1);
-	vc = data.height / (grid->height + 1) / 2;
+	vc = data.height / (grid->height + 1);
 	dp = vc / 8;
-	draw_line(data, (start.x + 1) * hz + start.y * shift_x, 
-			(start.y + 1) * vc - start.z * dp, 
-			(end.x + 1) * hz + end.y * shift_x, 
-			(end.y + 1) * vc - end.z * dp);
+	start.x = (start.x + 1) * hz/* + start.y * shift_x*/;
+	start.y = (start.y + 1) * vc; 
+	end.x = (end.x + 1) * hz /*+ end.y * shift_x*/;
+	end.y = (end.y + 1) * vc;
+	rotate(data, &start);
+	rotate(data, &end);
+	draw_line(data, start.x, 
+			start.y - start.z * dp, 
+			end.x, 
+			end.y - end.z * dp);
 }
 
 void	draw_grid(t_data data, t_grid *grid)

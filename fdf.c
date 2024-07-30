@@ -7,6 +7,16 @@ int	handle_key(int key, t_data *data)
 		mlx_destroy_window(data->mlx, data->win);
 		exit(0);
 	}
+	if (key == 65363 || key == 65361)
+	{
+		if (key == 65363)
+			data->perspective += 10;
+		else
+			data->perspective--;
+		mlx_clear_window(data->mlx, data->win);
+		draw_grid(*data, data->grid);
+		ft_printf("Key pressed: %d\n", key);
+	}
 	return (0);
 }
 
@@ -26,6 +36,7 @@ static int	init_data(t_data *data, int width, int height)
 	}
 	data->height = height;
 	data->width = width;
+	data->perspective = 0;
 	return (0);
 }
 	
@@ -37,8 +48,9 @@ int	main(int argc, char **argv)
 
 	if (argc != 2 || init_data(&data, 1000, 1000) == 1)
 		return (1);
+	grid = create_grid(argv[1]);
+	data.grid = grid;
 	mlx_key_hook(data.win, handle_key, &data);
-	grid = create_grid(argv[1]);	
 	draw_grid(data, grid);
 	mlx_loop(data.mlx);
 	return (0);

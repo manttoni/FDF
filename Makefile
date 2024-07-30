@@ -24,7 +24,7 @@ all: $(LIBS) fdf
 
 # Link object files with libraries to create the final executable
 fdf: $(OBJS) $(LIBS)
-	cc -g -Wall -Wextra -Werror $(OBJS) $(LIBFT) $(FT_PRINTF) $(MLX) $(GET_NEXT_LINE) -o fdf -Lmlx -lmlx -lXext -lX11 -lm -lbsd
+	cc -g -O2 -Wall -Wextra -Werror $(OBJS) $(LIBFT) $(FT_PRINTF) $(MLX) $(GET_NEXT_LINE) -o fdf -Lmlx -lmlx -lXext -lX11 -lm -lbsd
 
 # Rule to build object files from source files
 %.o: %.c

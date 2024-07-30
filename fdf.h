@@ -23,14 +23,6 @@
 # include <unistd.h>
 # include <fcntl.h>
 
-typedef struct s_data
-{
-	void	*mlx;
-	void	*win;
-	int	height;
-	int	width;
-}	t_data;
-
 typedef struct s_coord
 {
 	int	x;
@@ -46,8 +38,18 @@ typedef struct s_grid
 	int		depth;
 }	t_grid;
 
-void test(t_data data);
+typedef struct s_data
+{
+	void	*mlx;
+	void	*win;
+	int	height;
+	int	width;
+	int	perspective;
+	t_grid	*grid;
+}	t_data;
 
+void test(t_data data);
+void	rotate(t_data data, t_coord *coord);
 int		max(int a, int b);
 t_grid	*create_grid(char *file);
 void	draw_grid(t_data data, t_grid *grid);
