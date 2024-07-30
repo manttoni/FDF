@@ -33,7 +33,10 @@ static void	draw_coords(t_data data, t_grid *grid, t_coord start, t_coord end)
 	hz = data.width / (grid->width + 1);
 	vc = data.height / (grid->height + 1);
 	dp = vc / 4;
-	draw_line(data, (start.x + 1) * hz, (start.y + 1) * vc - start.z * dp, (end.x + 1) * hz, (end.y + 1) * vc - end.z * dp);
+	draw_line(data, (start.x + 1) * hz + start.y * 50, 
+			(start.y + 1) * vc - start.z * dp, 
+			(end.x + 1) * hz + end.y * 50, 
+			(end.y + 1) * vc - end.z * dp);
 }
 
 void	draw_grid(t_data data, t_grid *grid)
