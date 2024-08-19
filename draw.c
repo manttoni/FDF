@@ -2,14 +2,15 @@
 
 static void	draw_line(t_data data, int x0, int y0, int x1, int y1)
 {
-	int dx =  abs (x1 - x0), sx = x0 < x1 ? 1 : -1;
+	int dx = abs (x1 - x0), sx = x0 < x1 ? 1 : -1;
 	int dy = -abs (y1 - y0), sy = y0 < y1 ? 1 : -1;
 	int err = dx + dy, e2; /* error value e_xy */
 
 	while (1)
 	{
     	mlx_pixel_put(data.mlx, data.win, x0, y0, 0xFFFFFFFF);
-    	if (x0 == x1 && y0 == y1) break;
+    	if (x0 == x1 && y0 == y1)
+			break;
     	e2 = 2 * err;
     	if (e2 >= dy) 
 		{
@@ -39,10 +40,11 @@ static void	draw_coords(t_data data, t_grid *grid, t_coord start, t_coord end)
 	end.y = (end.y + (size - grid->height) / 2 + 1) * line_len;
 	rotate(data, &start);
 	rotate(data, &end);
-	draw_line(data, start.x, 
-			start.y - start.z * dp, 
-			end.x, 
-			end.y - end.z * dp);
+	draw_line(data, 
+				start.x, 
+				start.y - start.z * dp, 
+				end.x, 
+				end.y - end.z * dp);
 }
 
 void	draw_grid(t_data data, t_grid *grid)
