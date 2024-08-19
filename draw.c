@@ -28,13 +28,15 @@ static void	draw_coords(t_data data, t_grid *grid, t_coord start, t_coord end)
 {
 	int	dp;
 	int	line_len;
+	int	size;
 
-	line_len = data.size / (max(grid->width, grid->height) + 2);
+	size = max(grid->width, grid->height);
+	line_len = data.size / (size + 2);
 	dp = line_len / 8;
-	start.x = (start.x + 1) * line_len;
-	start.y = (start.y + 1) * line_len; 
-	end.x = (end.x + 1) * line_len;
-	end.y = (end.y + 1) * line_len;
+	start.x = (start.x + (size - grid->width) / 2 + 1) * line_len;
+	start.y = (start.y + (size - grid->height) / 2 + 1) * line_len; 
+	end.x = (end.x + (size - grid->width) / 2 + 1) * line_len;
+	end.y = (end.y + (size - grid->height) / 2 + 1) * line_len;
 	rotate(data, &start);
 	rotate(data, &end);
 	draw_line(data, start.x, 
