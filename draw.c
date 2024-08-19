@@ -26,19 +26,15 @@ static void	draw_line(t_data data, int x0, int y0, int x1, int y1)
 
 static void	draw_coords(t_data data, t_grid *grid, t_coord start, t_coord end)
 {
-	int	hz;
-	int	vc;
 	int	dp;
-	//int	shift_x;
+	int	line_len;
 
-	//shift_x = 5;
-	hz = data.width / (grid->width + 1);
-	vc = data.height / (grid->height + 1);
-	dp = vc / 8;
-	start.x = (start.x + 1) * hz/* + start.y * shift_x*/;
-	start.y = (start.y + 1) * vc; 
-	end.x = (end.x + 1) * hz /*+ end.y * shift_x*/;
-	end.y = (end.y + 1) * vc;
+	line_len = data.size / (max(grid->width, grid->height) + 2);
+	dp = line_len / 8;
+	start.x = (start.x + 1) * line_len;
+	start.y = (start.y + 1) * line_len; 
+	end.x = (end.x + 1) * line_len;
+	end.y = (end.y + 1) * line_len;
 	rotate(data, &start);
 	rotate(data, &end);
 	draw_line(data, start.x, 

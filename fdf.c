@@ -15,12 +15,11 @@ int	handle_key(int key, t_data *data)
 			data->perspective--;
 		mlx_clear_window(data->mlx, data->win);
 		draw_grid(*data, data->grid);
-		ft_printf("Key pressed: %d\n", key);
 	}
 	return (0);
 }
 
-static int	init_data(t_data *data, int width, int height)
+static int	init_data(t_data *data, int size)
 {
 	data->mlx = mlx_init();
 	if (data->mlx == NULL)
@@ -28,14 +27,13 @@ static int	init_data(t_data *data, int width, int height)
 		print_error("Failed to initialize mlx\n");
 		return (1);
 	}
-	data->win = mlx_new_window(data->mlx, width, height, "FDF");
+	data->win = mlx_new_window(data->mlx, size, size, "FDF");
 	if (data->win == NULL)
 	{
 		print_error("Failed to create window\n");
 		return (1);
 	}
-	data->height = height;
-	data->width = width;
+	data->size = size;
 	data->perspective = 0;
 	return (0);
 }
@@ -46,7 +44,7 @@ int	main(int argc, char **argv)
 	t_data	data;
 	t_grid	*grid;
 
-	if (argc != 2 || init_data(&data, 1000, 1000) == 1)
+	if (argc != 2 || init_data(&data, 1000) == 1)
 		return (1);
 	grid = create_grid(argv[1]);
 	data.grid = grid;
