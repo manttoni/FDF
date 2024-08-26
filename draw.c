@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 12:45:11 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/26 13:56:17 by amaula           ###   ########.fr       */
+/*   Updated: 2024/08/26 16:00:21 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,13 @@ static void	color_pixel(t_data *data, t_coord pixel, int color)
 static void	draw_line(t_data *data, t_coord start, t_coord end)
 {
 	t_bresenham	*b;
+	int			len;
 
+	len = hypot(abs(start.x - end.x), abs(start.y - end.y));
 	b = init_bresenham(data, start, end);
 	while (1)
 	{
-		color_pixel(data, start, 0xFFFFFF - (start.z + end.z) * 100);
+		color_pixel(data, start, get_color(start, end, len));
 		if (start.x == end.x && start.y == end.y)
 			break ;
 		b->e2 = 2 * b->err;

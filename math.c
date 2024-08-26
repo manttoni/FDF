@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 13:23:13 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/26 13:24:28 by amaula           ###   ########.fr       */
+/*   Updated: 2024/08/26 16:03:16 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,12 @@ void	rotate(t_data *data, t_coord *coord)
 	len = hypot(coord->x - origo.x, coord->y - origo.y);
 	coord->x = (int)(len * cos(angle)) + origo.x;
 	coord->y = (int)(len * sin(angle)) + origo.y;
+}
+
+int	get_color(t_coord start, t_coord end, int len)
+{
+	int	drawn;
+
+	drawn = len - hypot(abs(start.x - end.x), abs(start.y - end.y));
+	return (0xFFFFFF - drawn * (start.z + end.z));
 }
