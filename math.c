@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 13:23:13 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/26 16:03:16 by amaula           ###   ########.fr       */
+/*   Updated: 2024/08/26 17:54:52 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 int	max(int a, int b)
 {
 	if (a > b)
+		return (a);
+	return (b);
+}
+
+int	min(int a, int b)
+{
+	if (a < b)
 		return (a);
 	return (b);
 }
@@ -40,10 +47,10 @@ void	rotate(t_data *data, t_coord *coord)
 	coord->y = (int)(len * sin(angle)) + origo.y;
 }
 
-int	get_color(t_coord start, t_coord end, int len)
+int	get_colour(t_grid *grid, t_coord current, t_coord end, int len)
 {
 	int	drawn;
 
-	drawn = len - hypot(abs(start.x - end.x), abs(start.y - end.y));
-	return (0xFFFFFF - drawn * (start.z + end.z));
+	drawn = len - hypot(abs(current.x - end.x), abs(current.y - end.y));
+	return (255 << 16 | (255 * current.z / grid->depth) << 8 | 255 * current.z / grid->depth);
 }

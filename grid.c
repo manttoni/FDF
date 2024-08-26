@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 13:19:16 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/26 13:22:51 by amaula           ###   ########.fr       */
+/*   Updated: 2024/08/26 17:42:45 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ static void	set_coords(t_grid *grid, char *file)
 
 	fd = open(file, O_RDONLY);
 	y = 0;
+	grid->depth = 0;
 	while (y < grid->height)
 	{
 		x = 0;
