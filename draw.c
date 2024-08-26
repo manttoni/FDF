@@ -1,27 +1,78 @@
 #include "fdf.h"
 
-static void	draw_line(t_data *data, int x0, int y0, int x1, int y1)
+/*static void	draw_line2(t_data *data, t_coord start, t_coord end)
 {
-	int dx = abs (x1 - x0), sx = x0 < x1 ? 1 : -1;
-	int dy = -abs (y1 - y0), sy = y0 < y1 ? 1 : -1;
-	int err = dx + dy, e2; /* error value e_xy */
+	int	dx;
+	int dy;
+	int	pixels;
+	int	x;
+	int	y;
 
+	dx = end.x - start.x;
+	dy = end.y - start.y;
+	pixels = hypot(dx, dy);
+	dx /= pixels;
+	dy /= pixels;
+	x = start.x;
+	y = start.y;
+	while (pixels)
+	{
+		*(int *)(data->image->img_data + (y * data->image->size_line + x * (data->image->bits_per_pixel / 8))) = 0xFFFFFF;
+		x += dx;
+		y += dy;
+		--pixels;
+	}
+}*/
+typedef struct s_bresenham
+{
+	int	dx;
+	int	dy;
+	int	sx;
+	int	sy;
+	int	err;
+	int	e2;
+}	t_bresenham;
+
+static t_bresenham	*init_bresenham(t_coord start, t_coord end)
+{
+	t_bresenham *b;
+
+	b = malloc(sizeof(t_bresenham));
+	b->dx = abs(end.x - start.x);
+	if(start.x < end.x)
+		b->sx = 1;
+	else
+		b->sx = -1;
+	b->dy = -abs(end.y - start.y);
+	if (start.y < end.y)
+		b->sy = 1;
+	else
+		b->sy = -1;
+	b->err = b->dx + b->dy;
+	return (b);
+}
+
+static void	draw_line(t_data *data, t_coord start, t_coord end)
+{
+	t_bresenham *b;
+
+	b = init_bresenham(start, end);
 	while (1)
 	{
-		if (y0 < data->size && x0 < data->size && y0 > 0 && x0 > 0)
-			*(int *)(data->image->img_data + (y0 * data->image->size_line + x0 * (data->image->bits_per_pixel / 8))) = 0xFFFFFF;
-    	if (x0 == x1 && y0 == y1)
+		if (start.y < data->size && start.x < data->size && start.y > 0 && start.x > 0)
+			*(int *)(data->image->img_data + (start.y * data->image->size_line + start.x * (data->image->bits_per_pixel / 8))) = 0xFFFFFF;
+    	if (start.x == end.x && start.y == end.y)
 			break;
-    	e2 = 2 * err;
-    	if (e2 >= dy) 
+    	b->e2 = 2 * b->err;
+    	if (b->e2 >= b->dy) 
 		{
-			err += dy;
-			x0 += sx;
+			b->err += b->dy;
+			start.x += b->sx;
 		}
-    	if (e2 <= dx) 
+    	if (b->e2 <= b->dx) 
 		{ 
-			err += dx; 
-			y0 += sy; 
+			b->err += b->dx; 
+			start.y += b->sy; 
 		}
 	}
 }
@@ -41,11 +92,9 @@ static void	draw_coords(t_data *data, t_grid *grid, t_coord start, t_coord end)
 	end.y = (end.y + (size - grid->height) / 2 + 1) * line_len;
 	rotate(data, &start);
 	rotate(data, &end);
-	draw_line(data, 
-				start.x, 
-				start.y - start.z * dp, 
-				end.x, 
-				end.y - end.z * dp);
+	start.y -= start.z * dp;
+	end.y -= end.z * dp;
+	draw_line(data, start, end);
 }
 
 void	draw_grid(t_data *data)
