@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 12:41:59 by amaula            #+#    #+#             */
-/*   Updated: 2024/07/19 16:13:47 by amaula           ###   ########.fr       */
+/*   Updated: 2024/08/26 13:29:45 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,31 +48,31 @@ void	gnl_copy(char *dst, char *src)
 	*dst = '\0';
 }
 
-char    *gnl_strchr(char *str, char chr)
+char	*gnl_strchr(char *str, char chr)
 {
-        while (*str)
-        {
-                if (*str == chr)
-                        return (str);
-                str++;
-        }
-        return (NULL);
+	while (*str)
+	{
+		if (*str == chr)
+			return (str);
+		str++;
+	}
+	return (NULL);
 }
 
-void    gnl_bzero(char *buffer, size_t size)
+void	gnl_bzero(char *buffer, size_t size)
 {
-        while (size-- > 0)
-                buffer[size] = '\0';
+	while (size-- > 0)
+		buffer[size] = '\0';
 }
 
-size_t  gnl_strlen(char *s)
+size_t	gnl_strlen(char *s)
 {
-        size_t  len;
+	size_t	len;
 
-        len = 0;
-        if (s == NULL)
-                return (0);
-        while (*s++)
-                len++;
-        return (len);
+	len = 0;
+	if (s == NULL)
+		return (0);
+	while (*s++)
+		len++;
+	return (len);
 }

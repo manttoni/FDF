@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   grid.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/26 13:19:16 by amaula            #+#    #+#             */
+/*   Updated: 2024/08/26 13:22:51 by amaula           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
 static int	count_len(char *line)
@@ -36,6 +48,13 @@ static void	set_dimensions(t_grid *grid, char *file)
 	close(fd);
 }
 
+static void	set_coord_values(t_grid *grid, int x, int y, int z)
+{
+	grid->coords[y][x].z = z;
+	grid->coords[y][x].y = y;
+	grid->coords[y][x].x = x;
+}
+
 static void	set_coords(t_grid *grid, char *file)
 {
 	char	**row_values;
@@ -53,9 +72,7 @@ static void	set_coords(t_grid *grid, char *file)
 		row_values = ft_split(line, ' ');
 		while (x < grid->width)
 		{
-			grid->coordinates[y][x].z = ft_atoi(row_values[x]);
-			grid->coordinates[y][x].y = y;
-			grid->coordinates[y][x].x = x;
+			set_coord_values(grid, x, y, ft_atoi(row_values[x]));
 			grid->depth = max(grid->depth, ft_atoi(row_values[x]));
 			free(row_values[x]);
 			x++;
@@ -76,11 +93,11 @@ t_grid	*create_grid(char *file)
 	if (grid == NULL)
 		return (NULL);
 	set_dimensions(grid, file);
-	grid->coordinates = malloc(grid->height * sizeof(t_coord*));
+	grid->coords = malloc(grid->height * sizeof(t_coord *));
 	i = 0;
 	while (i < grid->height)
 	{
-		grid->coordinates[i] = malloc(grid->width * sizeof(t_coord));
+		grid->coords[i] = malloc(grid->width * sizeof(t_coord));
 		i++;
 	}
 	set_coords(grid, file);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/26 12:45:11 by amaula            #+#    #+#             */
+/*   Updated: 2024/08/26 13:17:45 by amaula           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
 typedef struct s_bresenham
@@ -10,15 +22,18 @@ typedef struct s_bresenham
 	int	e2;
 }	t_bresenham;
 
-static t_bresenham	*init_bresenham(t_coord start, t_coord end)
+static t_bresenham	*init_bresenham(t_data *data, t_coord start, t_coord end)
 {
-	t_bresenham *b;
+	t_bresenham	*b;
 
 	b = malloc(sizeof(t_bresenham));
 	if (b == NULL)
-		return (NULL);
+	{
+		free_data(data);
+		exit(1);
+	}
 	b->dx = abs(end.x - start.x);
-	if(start.x < end.x)
+	if (start.x < end.x)
 		b->sx = 1;
 	else
 		b->sx = -1;
@@ -31,32 +46,36 @@ static t_bresenham	*init_bresenham(t_coord start, t_coord end)
 	return (b);
 }
 
+static void	color_pixel(t_data *data, t_coord pixel, int color)
+{
+	int	pixel_index;
+
+	pixel_index = pixel.y * data->image->sl + pixel.x * (data->image->bpp / 8);
+	if (pixel.x < data->size && pixel.x > 0)
+		if (pixel.y < data->size && pixel.y > 0)
+			*(int *)(data->image->img_data + pixel_index) = color;
+}
+
 static void	draw_line(t_data *data, t_coord start, t_coord end)
 {
-	t_bresenham *b;
+	t_bresenham	*b;
 
-	b = init_bresenham(start, end);
-	if (b == NULL)
-	{
-		free_data(data);
-		exit(1);
-	}
+	b = init_bresenham(data, start, end);
 	while (1)
 	{
-		if (start.y < data->size && start.x < data->size && start.y > 0 && start.x > 0)
-			*(int *)(data->image->img_data + (start.y * data->image->size_line + start.x * (data->image->bits_per_pixel / 8))) = 0xFFFFFF;
-    	if (start.x == end.x && start.y == end.y)
-			break;
-    	b->e2 = 2 * b->err;
-    	if (b->e2 >= b->dy) 
+		color_pixel(data, start, 0xFFFFFF);
+		if (start.x == end.x && start.y == end.y)
+			break ;
+		b->e2 = 2 * b->err;
+		if (b->e2 >= b->dy)
 		{
 			b->err += b->dy;
 			start.x += b->sx;
 		}
-    	if (b->e2 <= b->dx) 
-		{ 
-			b->err += b->dx; 
-			start.y += b->sy; 
+		if (b->e2 <= b->dx)
+		{
+			b->err += b->dx;
+			start.y += b->sy;
 		}
 	}
 	free(b);
@@ -72,7 +91,7 @@ static void	draw_coords(t_data *data, t_grid *grid, t_coord start, t_coord end)
 	line_len = data->size / (size + 1);
 	dp = line_len / 8;
 	start.x = (start.x + (size - grid->width) / 2 + 1) * line_len;
-	start.y = (start.y + (size - grid->height) / 2 + 1) * line_len; 
+	start.y = (start.y + (size - grid->height) / 2 + 1) * line_len;
 	end.x = (end.x + (size - grid->width) / 2 + 1) * line_len;
 	end.y = (end.y + (size - grid->height) / 2 + 1) * line_len;
 	rotate(data, &start);
@@ -84,9 +103,10 @@ static void	draw_coords(t_data *data, t_grid *grid, t_coord start, t_coord end)
 
 void	draw_grid(t_data *data)
 {
-	int	x;
-	int	y;
+	int		x;
+	int		y;
 	t_coord	start;
+	t_coord	end;
 
 	y = 0;
 	while (y < data->grid->height)
@@ -94,15 +114,18 @@ void	draw_grid(t_data *data)
 		x = 0;
 		while (x < data->grid->width)
 		{
-			start = data->grid->coordinates[y][x];
+			start = data->grid->coords[y][x];
 			if (x + 1 < data->grid->width)
-				draw_coords(data, data->grid, start, data->grid->coordinates[y][x + 1]);
+			{
+				end = data->grid->coords[y][x + 1];
+				draw_coords(data, data->grid, start, end);
+			}
 			if (y + 1 < data->grid->height)
-				draw_coords(data, data->grid, start, data->grid->coordinates[y + 1][x]);
+				end = data->grid->coords[y + 1][x];
+			if (y + 1 < data->grid->height)
+				draw_coords(data, data->grid, start, end);
 			x++;
 		}
 		y++;
 	}
-
 }
-

@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 12:06:07 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/26 12:16:26 by amaula           ###   ########.fr       */
+/*   Updated: 2024/08/26 13:13:02 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	init_data(t_data *data, int size)
 {
+	t_image	*i;
+
 	data->mlx = mlx_init();
 	if (data->mlx == NULL)
 		return (1);
@@ -23,8 +25,9 @@ int	init_data(t_data *data, int size)
 	data->image = malloc(sizeof(t_image));
 	if (data->image == NULL)
 		return (1);
+	i = data->image;
 	data->image->img = mlx_new_image(data->mlx, size, size);
-	data->image->img_data = mlx_get_data_addr(data->image->img, &(data->image->bits_per_pixel), &(data->image->size_line), &(data->image->endian));
+	i->img_data = mlx_get_data_addr(i->img, &(i->bpp), &(i->sl), &(i->endian));
 	data->size = size;
 	data->perspective = 0;
 	return (0);
@@ -37,10 +40,10 @@ void	free_data(t_data *data)
 	i = 0;
 	while (i < data->grid->height)
 	{
-		free(data->grid->coordinates[i]);
+		free(data->grid->coords[i]);
 		i++;
 	}
-	free(data->grid->coordinates);
+	free(data->grid->coords);
 	free(data->grid);
 	mlx_destroy_image(data->mlx, data->image->img);
 	mlx_destroy_window(data->mlx, data->win);

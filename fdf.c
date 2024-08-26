@@ -6,11 +6,20 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:57:24 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/26 12:07:40 by amaula           ###   ########.fr       */
+/*   Updated: 2024/08/26 13:18:38 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+int	handle_close(void *param)
+{
+	t_data	*data;
+
+	data = (t_data *)param;
+	free_data(data);
+	exit(0);
+}
 
 int	handle_key(int key, t_data *data)
 {
@@ -25,7 +34,6 @@ int	handle_key(int key, t_data *data)
 			data->perspective += 10;
 		else
 			data->perspective--;
-		//mlx_clear_window(data->mlx, data->win);
 		ft_memset(data->image->img_data, 0, data->size * data->size * 4);
 		draw_grid(data);
 		mlx_put_image_to_window(data->mlx, data->win, data->image->img, 0, 0);
@@ -47,6 +55,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	mlx_key_hook(data->win, handle_key, data);
+	mlx_hook(data->win, 17, 0, handle_close, data);
 	draw_grid(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->image->img, 0, 0);
 	mlx_loop(data->mlx);
