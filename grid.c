@@ -57,6 +57,7 @@ static void	set_coords(t_grid *grid, char *file)
 			grid->coordinates[y][x].y = y;
 			grid->coordinates[y][x].x = x;
 			grid->depth = max(grid->depth, ft_atoi(row_values[x]));
+			free(row_values[x]);
 			x++;
 		}
 		free(row_values);
@@ -72,6 +73,8 @@ t_grid	*create_grid(char *file)
 	int		i;
 
 	grid = malloc(sizeof(t_grid));
+	if (grid == NULL)
+		return (NULL);
 	set_dimensions(grid, file);
 	grid->coordinates = malloc(grid->height * sizeof(t_coord*));
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 14:21:35 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/26 10:29:55 by amaula           ###   ########.fr       */
+/*   Updated: 2024/08/26 11:41:37 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ typedef struct s_data
 	t_image	*image;
 }	t_data;
 
+int		init_data(t_data *data, int size);
+void	free_data(t_data *data);
 void	rotate(t_data *data, t_coord *coord);
 int		max(int a, int b);
 t_grid	*create_grid(char *file);

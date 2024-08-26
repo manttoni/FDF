@@ -1,28 +1,5 @@
 #include "fdf.h"
 
-/*static void	draw_line2(t_data *data, t_coord start, t_coord end)
-{
-	int	dx;
-	int dy;
-	int	pixels;
-	int	x;
-	int	y;
-
-	dx = end.x - start.x;
-	dy = end.y - start.y;
-	pixels = hypot(dx, dy);
-	dx /= pixels;
-	dy /= pixels;
-	x = start.x;
-	y = start.y;
-	while (pixels)
-	{
-		*(int *)(data->image->img_data + (y * data->image->size_line + x * (data->image->bits_per_pixel / 8))) = 0xFFFFFF;
-		x += dx;
-		y += dy;
-		--pixels;
-	}
-}*/
 typedef struct s_bresenham
 {
 	int	dx;
@@ -38,6 +15,8 @@ static t_bresenham	*init_bresenham(t_coord start, t_coord end)
 	t_bresenham *b;
 
 	b = malloc(sizeof(t_bresenham));
+	if (b == NULL)
+		return (NULL);
 	b->dx = abs(end.x - start.x);
 	if(start.x < end.x)
 		b->sx = 1;
@@ -57,6 +36,11 @@ static void	draw_line(t_data *data, t_coord start, t_coord end)
 	t_bresenham *b;
 
 	b = init_bresenham(start, end);
+	if (b == NULL)
+	{
+		free_data(data);
+		exit(1);
+	}
 	while (1)
 	{
 		if (start.y < data->size && start.x < data->size && start.y > 0 && start.x > 0)
@@ -75,6 +59,7 @@ static void	draw_line(t_data *data, t_coord start, t_coord end)
 			start.y += b->sy; 
 		}
 	}
+	free(b);
 }
 
 static void	draw_coords(t_data *data, t_grid *grid, t_coord start, t_coord end)
