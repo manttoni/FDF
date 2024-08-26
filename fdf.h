@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 14:21:35 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/19 13:51:06 by amaula           ###   ########.fr       */
+/*   Updated: 2024/08/19 15:25:46 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,15 @@ typedef struct s_grid
 	int		depth;
 }	t_grid;
 
+typedef struct s_image
+{
+	void	*img;
+	char	*img_data;
+	int		bits_per_pixel;
+	int		size_line;
+	int		endian;
+}	t_image;
+
 typedef struct s_data
 {
 	void	*mlx;
@@ -45,6 +54,7 @@ typedef struct s_data
 	int		size;
 	int		perspective;
 	t_grid	*grid;
+	t_image	*image;
 }	t_data;
 
 void 	test(t_data data);

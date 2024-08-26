@@ -24,7 +24,8 @@ void	rotate(t_data data, t_coord *coord)
 	origo.y = data.size / 2;
 	angle = atan2(0, 1) - atan2(coord->y - origo.y, coord->x - origo.x) + convert_rad(data.perspective);
 	angle = -angle;
-	len = sqrt(pow(coord->x - origo.x, 2) + pow(coord->y - origo.y, 2));
+	len = hypot(coord->x - origo.x, coord->y - origo.y);
+	//sqrt(pow(coord->x - origo.x, 2) + pow(coord->y - origo.y, 2));
 	coord->x = (int) (len * cos(angle)) + origo.x;
 	coord->y = (int) (len * sin(angle)) + origo.y;
 }

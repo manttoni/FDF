@@ -8,7 +8,8 @@ static void	draw_line(t_data data, int x0, int y0, int x1, int y1)
 
 	while (1)
 	{
-    	mlx_pixel_put(data.mlx, data.win, x0, y0, 0xFFFFFFFF);
+//    	mlx_pixel_put(data.mlx, data.win, x0, y0, 0xFFFFFFFF);
+		*(int *)(data.image->img_data + (y0 * data.image->size_line + x0 * (data.image->bits_per_pixel / 8))) = 0xFFFFFF;
     	if (x0 == x1 && y0 == y1)
 			break;
     	e2 = 2 * err;
@@ -32,7 +33,7 @@ static void	draw_coords(t_data data, t_grid *grid, t_coord start, t_coord end)
 	int	size;
 
 	size = max(grid->width, grid->height);
-	line_len = data.size / (size + 2);
+	line_len = data.size / (size);
 	dp = line_len / 8;
 	start.x = (start.x + (size - grid->width) / 2 + 1) * line_len;
 	start.y = (start.y + (size - grid->height) / 2 + 1) * line_len; 
@@ -68,5 +69,6 @@ void	draw_grid(t_data data, t_grid *grid)
 		}
 		y++;
 	}
+
 }
 
