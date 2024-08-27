@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 13:23:13 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/27 13:07:10 by amaula           ###   ########.fr       */
+/*   Updated: 2024/08/27 13:09:15 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int	get_colour(t_grid *grid, t_coord current, t_coord end, int len)
 
 	if (len == 0)
 		return (0);
-	start_colour = 255 - 255 * current.z / grid->depth;
-	end_colour = 255 - 255 * end.z / grid->depth;
+	start_colour = 255 - 255 * abs(current.z) / grid->depth;
+	end_colour = 255 - 255 * abs(end.z) / grid->depth;
 	undrawn = hypot(abs(current.x - end.x), abs(current.y - end.y));
 	pixel_colour = start_colour - (undrawn * (end_colour - start_colour) / len); 
 	return (255 << 16 | pixel_colour << 8 | pixel_colour);

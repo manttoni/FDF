@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 12:45:11 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/27 12:46:10 by amaula           ###   ########.fr       */
+/*   Updated: 2024/08/27 13:18:49 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ static void	draw_line(t_data *data, t_coord start, t_coord end)
 
 	if (start.z > end.z)
 		swap(&start, &end);
+	if (!is_visible(data->size, start) && !is_visible(data->size, end))
+		return ;
 	len = hypot(abs(start.x - end.x), abs(start.y - end.y));
 	b = init_bresenham(data, start, end);
 	while (1)
@@ -100,7 +102,7 @@ static void	draw_coords(t_data *data, t_grid *grid, t_coord start, t_coord end)
 	int	size;
 
 	size = max(grid->width, grid->height);
-	line_len = data->size / (size + 1) + data->zoom;
+	line_len = data->size / size + data->zoom * size;
 	dp = line_len / 10;
 	start.x = (start.x + (size - grid->width) / 2 + 1) * line_len;
 	start.y = (start.y + (size - grid->height) / 2 + 1) * line_len;
