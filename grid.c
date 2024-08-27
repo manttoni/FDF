@@ -6,13 +6,13 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 13:19:16 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/26 17:42:45 by amaula           ###   ########.fr       */
+/*   Updated: 2024/08/27 12:10:30 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static int	count_len(char *line)
+static int	count_width(char *line)
 {
 	int	len;
 
@@ -29,78 +29,74 @@ static int	count_len(char *line)
 	return (len);
 }
 
-static void	set_dimensions(t_grid *grid, char *file)
+static t_coord	**ft_realloc(t_coord **old_ptr, size_t old_size)
 {
-	char	*line;
-	int		fd;
+	t_coord	**new_ptr;
+	size_t	i;
 
-	fd = open(file, O_RDONLY);
-	line = get_next_line(fd);
-	grid->width = count_len(line);
-	grid->height = 0;
-	grid->depth = 0;
-	while (line)
+	new_ptr = malloc((old_size + 1) * sizeof(t_coord *));
+	if (new_ptr == NULL)
+		return (NULL);
+	i = 0;
+	while (i < old_size)
 	{
-		free(line);
-		grid->height++;
-		line = get_next_line(fd);
+		new_ptr[i] = old_ptr[i];
+		i++;
 	}
-	close(fd);
+	free(old_ptr);
+	return (new_ptr);
 }
+
 
 static void	set_coord_values(t_grid *grid, int x, int y, int z)
 {
 	grid->coords[y][x].z = z;
+	grid->depth = max(grid->depth, abs(z));
 	grid->coords[y][x].y = y;
 	grid->coords[y][x].x = x;
+
 }
 
-static void	set_coords(t_grid *grid, char *file)
+static void	parse_file(char *file, t_grid *grid)
 {
-	char	**row_values;
-	char	*line;
 	int		fd;
+	char	*line;
+	char	*ptr;
 	int		x;
-	int		y;
 
 	fd = open(file, O_RDONLY);
-	y = 0;
-	grid->depth = 0;
-	while (y < grid->height)
+	line = get_next_line(fd);
+	grid->width = count_width(line);
+	while (line)
 	{
+		grid->coords = ft_realloc(grid->coords, grid->height++);
+		ptr = line;
 		x = 0;
-		line = get_next_line(fd);
-		row_values = ft_split(line, ' ');
+		grid->coords[grid->height - 1] = malloc(grid->width * sizeof(t_coord));
 		while (x < grid->width)
 		{
-			set_coord_values(grid, x, y, ft_atoi(row_values[x]));
-			grid->depth = max(grid->depth, ft_atoi(row_values[x]));
-			free(row_values[x]);
-			x++;
+			set_coord_values(grid, x++, grid->height - 1, ft_atoi(ptr));
+			ptr = ft_strchr(ptr, ' ');
+			if (ptr == NULL)
+				break ;
+			while (*ptr == ' ')
+				ptr++;
 		}
-		free(row_values);
 		free(line);
-		y++;
+		line = get_next_line(fd);
 	}
-	close(fd);
 }
 
 t_grid	*create_grid(char *file)
 {
 	t_grid	*grid;
-	int		i;
 
 	grid = malloc(sizeof(t_grid));
 	if (grid == NULL)
 		return (NULL);
-	set_dimensions(grid, file);
-	grid->coords = malloc(grid->height * sizeof(t_coord *));
-	i = 0;
-	while (i < grid->height)
-	{
-		grid->coords[i] = malloc(grid->width * sizeof(t_coord));
-		i++;
-	}
-	set_coords(grid, file);
+	grid->coords = NULL;
+	grid->depth = 0;
+	grid->height = 0;
+	parse_file(file, grid);
 	return (grid);
 }
