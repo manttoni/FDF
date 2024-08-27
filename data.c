@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 12:06:07 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/27 12:44:20 by amaula           ###   ########.fr       */
+/*   Updated: 2024/08/27 13:26:05 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	init_data(t_data *data, int size)
 	data->size = size;
 	data->perspective = 0;
 	data->zoom = 0;
+	data->camera.x = 0;
+	data->camera.y = 0;
 	return (0);
 }
 

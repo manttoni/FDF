@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 14:21:35 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/27 13:17:45 by amaula           ###   ########.fr       */
+/*   Updated: 2024/08/27 13:25:47 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@
 # define UP_ARROW 65362
 # define DOWN_ARROW 65364
 # define ESCAPE_KEY 65307
+# define W 119
+# define A 97
+# define S 115
+# define D 100
 
 typedef struct s_coord
 {
@@ -60,6 +64,7 @@ typedef struct s_data
 	int		size;
 	int		perspective;
 	int		zoom;
+	t_coord	camera;
 	t_grid	*grid;
 	t_image	*image;
 }	t_data;

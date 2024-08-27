@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 12:45:11 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/27 13:18:49 by amaula           ###   ########.fr       */
+/*   Updated: 2024/08/27 13:28:12 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,10 @@ static void	draw_coords(t_data *data, t_grid *grid, t_coord start, t_coord end)
 	size = max(grid->width, grid->height);
 	line_len = data->size / size + data->zoom * size;
 	dp = line_len / 10;
-	start.x = (start.x + (size - grid->width) / 2 + 1) * line_len;
-	start.y = (start.y + (size - grid->height) / 2 + 1) * line_len;
-	end.x = (end.x + (size - grid->width) / 2 + 1) * line_len;
-	end.y = (end.y + (size - grid->height) / 2 + 1) * line_len;
+	start.x = (start.x + data->camera.x + (size - grid->width) / 2 + 1) * line_len;
+	start.y = (start.y + data->camera.y + (size - grid->height) / 2 + 1) * line_len;
+	end.x = (end.x + data->camera.x + (size - grid->width) / 2 + 1) * line_len;
+	end.y = (end.y + data->camera.y +  (size - grid->height) / 2 + 1) * line_len;
 	rotate(data, &start);
 	rotate(data, &end);
 	start.y -= start.z * dp;
