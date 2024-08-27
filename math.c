@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 13:23:13 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/27 10:40:10 by amaula           ###   ########.fr       */
+/*   Updated: 2024/08/27 12:46:39 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,15 @@ void	rotate(t_data *data, t_coord *coord)
 int	get_colour(t_grid *grid, t_coord current, t_coord end, int len)
 {
 	int	drawn;
-	int blue;
+	int start_colour;
+	int	end_colour;
+	int	pixel_colour;
 
+	if (len == 0)
+		return (0);
+	start_colour = 255 - 255 * current.z / grid->depth;
+	end_colour = 255 - 255 * end.z / grid->depth;
 	drawn = len - hypot(abs(current.x - end.x), abs(current.y - end.y));
-	blue = 255 - 255 * (current.z - drawn) / grid->depth;
-	return (255 << 16 | 255 << 8 | blue);
+	pixel_colour = 255 - start_colour - (drawn * (end_colour - start_colour) / len); 
+	return (255 << 16 | pixel_colour << 8 | pixel_colour);
 }

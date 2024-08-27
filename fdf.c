@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:57:24 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/26 13:18:38 by amaula           ###   ########.fr       */
+/*   Updated: 2024/08/27 12:44:22 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,35 @@ int	handle_close(void *param)
 	exit(0);
 }
 
+static void	redraw(t_data *data)
+{
+	ft_memset(data->image->img_data, 0, data->size * data->size * 4);
+	draw_grid(data);
+	mlx_put_image_to_window(data->mlx, data->win, data->image->img, 0, 0);
+}
+
 int	handle_key(int key, t_data *data)
 {
-	if (key == 65307)
+	if (key == ESCAPE_KEY)
 	{
 		free_data(data);
 		exit(0);
 	}
-	if (key == 65363 || key == 65361)
+	if (key == LEFT_ARROW || key == RIGHT_ARROW)
 	{
-		if (key == 65363)
+		if (key == LEFT_ARROW)
 			data->perspective += 10;
 		else
 			data->perspective--;
-		ft_memset(data->image->img_data, 0, data->size * data->size * 4);
-		draw_grid(data);
-		mlx_put_image_to_window(data->mlx, data->win, data->image->img, 0, 0);
+		redraw(data);
+	}
+	if (key == UP_ARROW || key == DOWN_ARROW)
+	{
+		if (key == UP_ARROW)
+			data->zoom++;
+		else
+			data->zoom--;
+		redraw(data);
 	}
 	return (0);
 }

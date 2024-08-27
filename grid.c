@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 13:19:16 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/27 12:10:30 by amaula           ###   ########.fr       */
+/*   Updated: 2024/08/27 12:19:12 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ static void	set_coord_values(t_grid *grid, int x, int y, int z)
 	grid->depth = max(grid->depth, abs(z));
 	grid->coords[y][x].y = y;
 	grid->coords[y][x].x = x;
-
 }
 
 static void	parse_file(char *file, t_grid *grid)

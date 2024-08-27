@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 14:21:35 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/26 17:43:06 by amaula           ###   ########.fr       */
+/*   Updated: 2024/08/27 12:44:04 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@
 # include <math.h>
 # include <unistd.h>
 # include <fcntl.h>
+
+# define LEFT_ARROW 65361
+# define RIGHT_ARROW 65363
+# define UP_ARROW 65362
+# define DOWN_ARROW 65364
+# define ESCAPE_KEY 65307
 
 typedef struct s_coord
 {
@@ -53,6 +59,7 @@ typedef struct s_data
 	void	*win;
 	int		size;
 	int		perspective;
+	int		zoom;
 	t_grid	*grid;
 	t_image	*image;
 }	t_data;
