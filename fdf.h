@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 14:21:35 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/27 13:45:38 by amaula           ###   ########.fr       */
+/*   Updated: 2024/08/27 14:44:39 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,16 @@
 # define S 115
 # define D 100
 # define DELETE 65535
+
+typedef struct s_bresenham
+{
+	int	dx;
+	int	dy;
+	int	sx;
+	int	sy;
+	int	err;
+	int	e2;
+}	t_bresenham;
 
 typedef struct s_coord
 {

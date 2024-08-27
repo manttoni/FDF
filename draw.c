@@ -6,21 +6,11 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 12:45:11 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/27 14:28:47 by amaula           ###   ########.fr       */
+/*   Updated: 2024/08/27 14:58:35 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-typedef struct s_bresenham
-{
-	int	dx;
-	int	dy;
-	int	sx;
-	int	sy;
-	int	err;
-	int	e2;
-}	t_bresenham;
 
 static t_bresenham	*init_bresenham(t_data *data, t_coord start, t_coord end)
 {
@@ -103,17 +93,9 @@ static void	draw_coords(t_data *data, t_coord start, t_coord end)
 	int	center;
 
 	size = max(data->grid->width, data->grid->height);
-	line_len = data->size / size + data->zoom * 2;
+	line_len = data->size / size + data->zoom * 4;
 	dp = line_len / 10;
 	center = data->size / 2;
-	/*start.x = (data->size - data->grid->width * line_len * start.x) / 2;
-	start.y = (data->size - data->grid->height * line_len * start.y) / 2;
-	end.x = (data->size + data->grid->width * line_len * end.x) / 2;
-	end.y = (data->size + data->grid->height * line_len * end.y) / 2;
-	start.x = (start.x + (size - grid->width) / 2 + 1) * line_len;
-	start.y = (start.y + (size - grid->height) / 2 + 1) * line_len;
-	end.x = (end.x + (size - grid->width) / 2 + 1) * line_len;
-	end.y = (end.y +  (size - grid->height) / 2 + 1) * line_len;*/
 	start.x = (start.x * line_len) - (data->grid->width * line_len) / 2 + center;
 	start.y = (start.y * line_len) - (data->grid->height * line_len) / 2 + center;
 	end.x = (end.x * line_len) - (data->grid->width * line_len) / 2 + center;
