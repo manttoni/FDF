@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 12:45:11 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/27 13:31:10 by amaula           ###   ########.fr       */
+/*   Updated: 2024/08/27 14:28:47 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,25 +95,35 @@ static void	draw_line(t_data *data, t_coord start, t_coord end)
 	free(b);
 }
 
-static void	draw_coords(t_data *data, t_grid *grid, t_coord start, t_coord end)
+static void	draw_coords(t_data *data, t_coord start, t_coord end)
 {
 	int	dp;
 	int	line_len;
 	int	size;
+	int	center;
 
-	size = max(grid->width, grid->height);
-	line_len = data->size / size + data->zoom * size;
+	size = max(data->grid->width, data->grid->height);
+	line_len = data->size / size + data->zoom * 2;
 	dp = line_len / 10;
+	center = data->size / 2;
+	/*start.x = (data->size - data->grid->width * line_len * start.x) / 2;
+	start.y = (data->size - data->grid->height * line_len * start.y) / 2;
+	end.x = (data->size + data->grid->width * line_len * end.x) / 2;
+	end.y = (data->size + data->grid->height * line_len * end.y) / 2;
 	start.x = (start.x + (size - grid->width) / 2 + 1) * line_len;
 	start.y = (start.y + (size - grid->height) / 2 + 1) * line_len;
 	end.x = (end.x + (size - grid->width) / 2 + 1) * line_len;
-	end.y = (end.y +  (size - grid->height) / 2 + 1) * line_len;
+	end.y = (end.y +  (size - grid->height) / 2 + 1) * line_len;*/
+	start.x = (start.x * line_len) - (data->grid->width * line_len) / 2 + center;
+	start.y = (start.y * line_len) - (data->grid->height * line_len) / 2 + center;
+	end.x = (end.x * line_len) - (data->grid->width * line_len) / 2 + center;
+	end.y = (end.y * line_len) - (data->grid->height * line_len) / 2 + center;
 	rotate(data, &start);
 	rotate(data, &end);
-	start.x += data->camera.x * 10;
-	start.y += data->camera.y * 10;
-	end.x += data->camera.x * 10;
-	end.y += data->camera.y * 10;
+	start.x += data->camera.x * 100;
+	start.y += data->camera.y * 100;
+	end.x += data->camera.x * 100;
+	end.y += data->camera.y * 100;
 	start.y -= start.z * dp;
 	end.y -= end.z * dp;
 	draw_line(data, start, end);
@@ -136,12 +146,12 @@ void	draw_grid(t_data *data)
 			if (x + 1 < data->grid->width)
 			{
 				end = data->grid->coords[y][x + 1];
-				draw_coords(data, data->grid, start, end);
+				draw_coords(data, start, end);
 			}
 			if (y + 1 < data->grid->height)
 				end = data->grid->coords[y + 1][x];
 			if (y + 1 < data->grid->height)
-				draw_coords(data, data->grid, start, end);
+				draw_coords(data, start, end);
 			x++;
 		}
 		y++;

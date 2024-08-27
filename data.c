@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 12:06:07 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/27 13:26:05 by amaula           ###   ########.fr       */
+/*   Updated: 2024/08/27 13:47:51 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	init_data(t_data *data, int size)
 	data->mlx = mlx_init();
 	if (data->mlx == NULL)
 		return (1);
-	data->win = mlx_new_window(data->mlx, size, size, "FDF");
+	data->win = mlx_new_window(data->mlx, size, size, "ARROWS=zoom/rotate, WASD=move, DELETE=reset");
 	if (data->win == NULL)
 		return (1);
 	data->image = malloc(sizeof(t_image));

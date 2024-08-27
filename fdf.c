@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:57:24 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/27 13:25:25 by amaula           ###   ########.fr       */
+/*   Updated: 2024/08/27 13:46:20 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,21 @@ int	handle_key(int key, t_data *data)
 	if (key == W || key == A || key == S || key == D)
 	{
 		if (key == W)
-			data->camera.y--;
-		if (key == A)
-			data->camera.x--;
-		if (key == S)
 			data->camera.y++;
-		if (key == D)
+		if (key == A)
 			data->camera.x++;
+		if (key == S)
+			data->camera.y--;
+		if (key == D)
+			data->camera.x--;
+		redraw(data);
+	}
+	if (key == DELETE)
+	{
+		data->zoom = 0;
+		data->perspective = 0;
+		data->camera.x = 0;
+		data->camera.y = 0;
 		redraw(data);
 	}
 	return (0);
