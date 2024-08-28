@@ -46,19 +46,3 @@ void	rotate(t_data *data, t_coord *coord)
 	coord->x = (int)(len * cos(angle)) + origo.x;
 	coord->y = (int)(len * sin(angle)) + origo.y;
 }
-
-int	get_colour(t_grid *grid, t_coord current, t_coord end, int len)
-{
-	int	undrawn;
-	int start_colour;
-	int	end_colour;
-	int	pixel_colour;
-
-	if (len == 0)
-		return (0);
-	start_colour = 255 - 255 * current.z / grid->depth;
-	end_colour = 255 - 255 * end.z / grid->depth;
-	undrawn = hypot(abs(current.x - end.x), abs(current.y - end.y));
-	pixel_colour = start_colour - (undrawn * (end_colour - start_colour) / len); 
-	return (255 << 16 | pixel_colour << 8 | pixel_colour);
-}

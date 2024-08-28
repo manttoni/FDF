@@ -48,10 +48,23 @@ static t_coord	**ft_realloc(t_coord **old_ptr, size_t old_size)
 }
 
 
-static void	set_coord_values(t_grid *grid, int x, int y, int z)
+static void	set_coord_values(t_grid *grid, int x, int y, char *ptr)
 {
+	int	z;
+	char	*colour;
+
+	if (grid->default_colours && ft_strchr(ptr, ','))
+		grid->default_colours = 0;
+	if (grid->default_colours == 0)
+	{
+		colour = ft_substr(ptr, ft_strchr(ptr, ',') + 1 - ptr, ft_strchr(ptr, ' ') - 1 - ptr);
+		grid->coords[y][x].colour = hex_parser(colour);
+		free(colour);
+	}
+	z = ft_atoi(ptr);
 	grid->coords[y][x].z = z;
-	grid->depth = max(grid->depth, abs(z));
+	grid->max_depth = max(grid->max_depth, z);
+	grid->min_depth = min(grid->min_depth, z);
 	grid->coords[y][x].y = y;
 	grid->coords[y][x].x = x;
 }
@@ -74,7 +87,7 @@ static void	parse_file(char *file, t_grid *grid)
 		grid->coords[grid->height - 1] = malloc(grid->width * sizeof(t_coord));
 		while (x < grid->width)
 		{
-			set_coord_values(grid, x++, grid->height - 1, ft_atoi(ptr));
+			set_coord_values(grid, x++, grid->height - 1, ptr);
 			ptr = ft_strchr(ptr, ' ');
 			if (ptr == NULL)
 				break ;
@@ -84,6 +97,7 @@ static void	parse_file(char *file, t_grid *grid)
 		free(line);
 		line = get_next_line(fd);
 	}
+	close(fd);
 }
 
 t_grid	*create_grid(char *file)
@@ -94,8 +108,12 @@ t_grid	*create_grid(char *file)
 	if (grid == NULL)
 		return (NULL);
 	grid->coords = NULL;
-	grid->depth = 0;
+	grid->max_depth = 0;
+	grid->min_depth = 0;
 	grid->height = 0;
+	grid->default_colours = 1;
 	parse_file(file, grid);
+	if (grid->default_colours == 1)
+		set_colours(grid);
 	return (grid);
 }

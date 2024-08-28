@@ -34,6 +34,13 @@
 # define D 100
 # define DELETE 65535
 
+typedef struct s_colour
+{
+	int	r;
+	int	g;
+	int	b;
+}	t_colour;
+
 typedef struct s_bresenham
 {
 	int	dx;
@@ -49,6 +56,7 @@ typedef struct s_coord
 	int	x;
 	int	y;
 	int	z;
+	int	colour;
 }	t_coord;
 
 typedef struct s_grid
@@ -56,7 +64,9 @@ typedef struct s_grid
 	t_coord	**coords;
 	int		width;
 	int		height;
-	int		depth;
+	int		max_depth;
+	int		min_depth;
+	int		default_colours;
 }	t_grid;
 
 typedef struct s_image
@@ -80,12 +90,15 @@ typedef struct s_data
 	t_image	*image;
 }	t_data;
 
+int		hex_parser(char *hex);
 int		is_visible(int size, t_coord c);
-int		get_colour(t_grid *grid, t_coord current, t_coord end, int len);
+void		set_colours(t_grid *grid);
+int		get_colour(t_coord current, t_coord end, int len);
 int		init_data(t_data *data, int size);
 void	free_data(t_data *data);
 void	rotate(t_data *data, t_coord *coord);
 int		max(int a, int b);
+int		min(int a, int b);
 t_grid	*create_grid(char *file);
 void	draw_grid(t_data *data);
 void	print_error(char *error_message);
