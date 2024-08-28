@@ -51,18 +51,18 @@ static t_coord	**ft_realloc(t_coord **old_ptr, size_t old_size)
 static void	set_coord_values(t_grid *grid, int x, int y, char *ptr)
 {
 	int	z;
-	char	*colour;
+	char	*color;
 	int	c;
 
-	grid->coords[y][x].colour = 0xFFFFFF;
+	grid->coords[y][x].color = 0xFFFFFF;
 	if (ft_strchr(ptr, ','))
 	{
-		grid->default_colours = 0;
-		colour = ft_substr(ptr, ft_strchr(ptr, ',') + 1 - ptr, ft_strchr(ptr, ' ') - 1 - ptr);
-		c = hex_parser(colour);
+		grid->default_colors = 0;
+		color = ft_substr(ptr, ft_strchr(ptr, ',') + 1 - ptr, ft_strchr(ptr, ' ') - 1 - ptr);
+		c = hex_parser(color);
 		if (c != -1)
-			grid->coords[y][x].colour = c;
-		free(colour);
+			grid->coords[y][x].color = c;
+		free(color);
 	}
 	z = ft_atoi(ptr);
 	grid->coords[y][x].z = z;
@@ -114,9 +114,9 @@ t_grid	*create_grid(char *file)
 	grid->max_depth = 0;
 	grid->min_depth = 0;
 	grid->height = 0;
-	grid->default_colours = 1;
+	grid->default_colors = 1;
 	parse_file(file, grid);
-	if (grid->default_colours == 1)
-		set_colours(grid);
+	if (grid->default_colors == 1)
+		set_colors(grid);
 	return (grid);
 }

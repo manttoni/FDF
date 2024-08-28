@@ -67,7 +67,7 @@ static void	draw_line(t_data *data, t_coord start, t_coord end)
 	b = init_bresenham(data, start, end);
 	while (1)
 	{
-		color_pixel(data, start, get_colour(start, end, len));
+		color_pixel(data, start, get_color(start, end, len));
 		if (start.x == end.x && start.y == end.y)
 			break ;
 		b->e2 = 2 * b->err;

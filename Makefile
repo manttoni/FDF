@@ -1,5 +1,5 @@
 # Source files
-SRCS = colour.c boolean.c data.c math.c grid.c draw.c fdf.c
+SRCS = color.c boolean.c data.c math.c grid.c draw.c fdf.c
 
 # Object files
 OBJS = $(SRCS:.c=.o)
