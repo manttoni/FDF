@@ -52,13 +52,16 @@ static void	set_coord_values(t_grid *grid, int x, int y, char *ptr)
 {
 	int	z;
 	char	*colour;
+	int	c;
 
-	if (grid->default_colours && ft_strchr(ptr, ','))
-		grid->default_colours = 0;
-	if (grid->default_colours == 0)
+	grid->coords[y][x].colour = 0xFFFFFF;
+	if (ft_strchr(ptr, ','))
 	{
+		grid->default_colours = 0;
 		colour = ft_substr(ptr, ft_strchr(ptr, ',') + 1 - ptr, ft_strchr(ptr, ' ') - 1 - ptr);
-		grid->coords[y][x].colour = hex_parser(colour);
+		c = hex_parser(colour);
+		if (c != -1)
+			grid->coords[y][x].colour = c;
 		free(colour);
 	}
 	z = ft_atoi(ptr);

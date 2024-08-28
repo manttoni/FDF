@@ -7,10 +7,7 @@ int	hex_parser(char *hex)
 
 	chars = "0123456789ABCDEF";
 	if (hex[0] != '0' || hex[1] != 'x')
-	{
-		ft_printf("Not hex!\n");
-		exit(1);
-	}
+		return (-1);
 	hex += 2;
 	res = 0;
 	while (ft_strchr(chars, ft_toupper(*hex)))
@@ -36,12 +33,12 @@ void	set_colours(t_grid *grid)
 		while (x < grid->width)
 		{
 			c = &grid->coords[y][x];
-			if (c->z < 0)
+			if (c->z < 0 && grid->min_depth != 0)
 			{
 				colour_change = 255 - 255 * c->z / grid->min_depth;
 				c->colour = 255 << 16 | colour_change << 8 | colour_change;
 			}
-			else
+			if (c->z > 0 && grid->max_depth != 0)
 			{
 				colour_change = 255 - 255 * c->z / grid->max_depth;
 				c->colour = colour_change << 16 | colour_change << 8 | 255;
