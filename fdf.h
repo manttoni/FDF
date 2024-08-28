@@ -91,7 +91,7 @@ typedef struct s_data
 }	t_data;
 
 int		hex_parser(char *hex);
-int		is_visible(int size, t_coord c);
+int		is_visible(int size, t_coord start, t_coord end);
 void		set_colours(t_grid *grid);
 int		get_colour(t_coord current, t_coord end, int len);
 int		init_data(t_data *data, int size);

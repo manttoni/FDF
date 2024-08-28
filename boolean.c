@@ -12,11 +12,15 @@
 
 #include "fdf.h"
 
-int	is_visible(int size, t_coord c)
+int	is_visible(int size, t_coord start, t_coord end)
 {
-	if (c.x > size || c.x < 0)
+	if (start.x > size && end.x > size)
 		return (0);
-	if (c.y > size || c.y < 0)
+	if (start.x < 0 && end.x < 0)
+		return (0);
+	if (start.y > size && end.y > size)
+		return (0);
+	if (start.y < 0 && end.y < 0)
 		return (0);
 	return (1);
 }

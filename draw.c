@@ -61,7 +61,7 @@ static void	draw_line(t_data *data, t_coord start, t_coord end)
 
 	if (start.z > end.z)
 		swap(&start, &end);
-	if (!is_visible(data->size, start) && !is_visible(data->size, end))
+	if (!is_visible(data->size, start, end))
 		return ;
 	len = hypot(abs(start.x - end.x), abs(start.y - end.y));
 	b = init_bresenham(data, start, end);
