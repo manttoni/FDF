@@ -1,23 +1,25 @@
 # Source files
 SRCS = color.c boolean.c data.c math.c grid.c draw.c fdf.c
+SRC_DIR = src/
 
 # Object files
 OBJS = $(SRCS:.c=.o)
+OBJS := $(addprefix $(SRC_DIR), $(OBJS))
 
 # Library paths and files
-LIBFT = libft/libft.a
-FT_PRINTF = ft_printf/libftprintf.a
-MLX = mlx/libmlx.a
-GET_NEXT_LINE = get_next_line/get_next_line.a
+LIBFT = lib/libft/libft.a
+FT_PRINTF = lib/ft_printf/libftprintf.a
+MLX = lib/mlx/libmlx.a
+GET_NEXT_LINE = lib/get_next_line/get_next_line.a
 
 # Include directories
-INCLUDES = -Ilibft -Ift_printf -Iget_next_line -Imlx
+INCLUDES = -Ilib/libft -Ilib/ft_printf -Ilib/get_next_line -Ilib/mlx
 
 # All libraries
 LIBS = $(LIBFT) $(FT_PRINTF) $(MLX) $(GET_NEXT_LINE)
 
 # Path to library directories
-LIB_DIRS = libft ft_printf mlx get_next_line
+LIB_DIRS = lib/libft lib/ft_printf lib/mlx lib/get_next_line
 
 # Target to build
 all: $(LIBS) fdf
@@ -27,35 +29,35 @@ fdf: $(OBJS) $(LIBS)
 	cc -g -O2 -Wall -Wextra -Werror $(OBJS) $(LIBFT) $(FT_PRINTF) $(MLX) $(GET_NEXT_LINE) -o fdf -Lmlx -lmlx -lXext -lX11 -lm -lbsd
 
 # Rule to build object files from source files
-%.o: %.c
+$(SRC_DIR)%.o: $(SRC_DIR)%.c
 	cc -g -Wall -Wextra -Werror $(INCLUDES) -c $< -o $@
 
 # Rules to build libraries
 $(MLX):
-	$(MAKE) -C mlx
+	$(MAKE) -C lib/mlx
 
 $(LIBFT):
-	$(MAKE) -C libft
+	$(MAKE) -C lib/libft
 
 $(FT_PRINTF): $(LIBFT)
-	$(MAKE) -C ft_printf
+	$(MAKE) -C lib/ft_printf
 
 $(GET_NEXT_LINE): $(LIBFT)
-	$(MAKE) -C get_next_line
+	$(MAKE) -C lib/get_next_line
 
 # Clean object files and libraries
 clean:
-	$(MAKE) -C libft clean
-	$(MAKE) -C ft_printf clean
-	$(MAKE) -C mlx clean
-	$(MAKE) -C get_next_line clean
-	rm -f *.o
+	$(MAKE) -C lib/libft clean
+	$(MAKE) -C lib/ft_printf clean
+	$(MAKE) -C lib/mlx clean
+	$(MAKE) -C lib/get_next_line clean
+	rm -f $(OBJS)
 
 # Clean and remove the executable
 fclean: clean
-	$(MAKE) -C libft fclean
-	$(MAKE) -C ft_printf fclean
-	$(MAKE) -C get_next_line fclean
+	$(MAKE) -C lib/libft fclean
+	$(MAKE) -C lib/ft_printf fclean
+	$(MAKE) -C lib/get_next_line fclean
 	rm -f fdf
 
 # Rebuild everything
