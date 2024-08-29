@@ -82,7 +82,7 @@ int	main(int argc, char **argv)
 	if (data == NULL || argc != 2)
 		return (1);
 	data->grid = create_grid(argv[1]);
-	if (data->grid == NULL || init_data(data, 2560) == 1)
+	if (data->grid == NULL || init_data(data, 1500) == 1)
 	{
 		free_data(data);
 		return (1);
