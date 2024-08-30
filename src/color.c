@@ -2,7 +2,7 @@
 
 int	hex_parser(char *hex)
 {
-	int		res;
+	int			res;
 	const char	*chars;
 
 	chars = "0123456789ABCDEF";
@@ -21,10 +21,10 @@ int	hex_parser(char *hex)
 
 void	set_colors(t_grid *grid)
 {
-	int	y;
-	int	x;
-	t_coord *c;
-	int	color_change;
+	int		y;
+	int		x;
+	t_coord	*c;
+	int		color_change;
 
 	y = 0;
 	while (y < grid->height)
@@ -58,7 +58,7 @@ static void	break_down(t_color *color, int code)
  * its z and color are not*/
 int     get_color(t_coord start, t_coord end, int len)
 {
-        double		t;
+	double	t;
 	t_color	start_color;
 	t_color	end_color;
 	t_color	pixel_color;
@@ -67,15 +67,9 @@ int     get_color(t_coord start, t_coord end, int len)
 		return (start.color);
 	break_down(&start_color, start.color);
 	break_down(&end_color, end.color);
-        t = 1 - hypot(abs(start.x - end.x), abs(start.y - end.y)) / (double)len;
-	pixel_color.r = (int)(start_color.r + (end_color.r - start_color.r) * t);
-	pixel_color.g = (int)(start_color.g + (end_color.g - start_color.g) * t);
-	pixel_color.b = (int)(start_color.b + (end_color.b - start_color.b) * t);
-	if (pixel_color.r > 255) pixel_color.r = 255;
-	if (pixel_color.g > 255) pixel_color.g = 255;
-	if (pixel_color.b > 255) pixel_color.b = 255;
-	if (pixel_color.r < 0) pixel_color.r = 0;
-	if (pixel_color.g < 0) pixel_color.g = 0;
-	if (pixel_color.b < 0) pixel_color.b = 0;
+	t = 1 - hypot(abs(start.x - end.x), abs(start.y - end.y)) / len;
+	pixel_color.r = start_color.r + (end_color.r - start_color.r) * t;
+	pixel_color.g = start_color.g + (end_color.g - start_color.g) * t;
+	pixel_color.b = start_color.b + (end_color.b - start_color.b) * t;
 	return (pixel_color.r << 16 | pixel_color.g << 8 | pixel_color.b);
 }
