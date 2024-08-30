@@ -26,8 +26,12 @@ int	init_data(t_data *data, int size)
 	if (data->image == NULL)
 		return (1);
 	i = data->image;
-	data->image->img = mlx_new_image(data->mlx, size, size);
+	i->img = mlx_new_image(data->mlx, size, size);
+	if (i->img == NULL)
+		return (1);
 	i->img_data = mlx_get_data_addr(i->img, &(i->bpp), &(i->sl), &(i->endian));
+	if (i->img_data == NULL)
+		return (1);
 	data->size = size;
 	data->perspective = 0;
 	data->zoom = 0;
