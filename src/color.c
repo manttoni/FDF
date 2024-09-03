@@ -36,26 +36,26 @@ void	set_colors(t_grid *grid)
 			if (c->z < 0 && grid->min_depth != 0)
 			{
 				color_change = 255 - 255 * c->z / grid->min_depth;
-				c->color = 255 << 16 | color_change << 8 | color_change;
+				c->color = color_change << 16 | 255 << 8 | 255;
 			}
 			if (c->z > 0 && grid->max_depth != 0)
 			{
 				color_change = 255 - 255 * c->z / grid->max_depth;
-				c->color = color_change << 16 | color_change << 8 | 255;
+				c->color = 255 << 16 | 255 << 8 | color_change;
 			}
 			x++;
 		}
 		y++;
 	}
 }
+
 static void	break_down(t_color *color, int code)
 {
 	color->r = (code >> 16) & 0xFF;
 	color->g = (code >> 8) & 0xFF;
 	color->b = code & 0xFF;
 }
-/*start is where the line started, but its x and y are probably changed
- * its z and color are not*/
+
 int     get_color(t_coord start, t_coord end, int len)
 {
 	double	t;

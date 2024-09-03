@@ -110,10 +110,11 @@ t_grid	*create_grid(char *file)
 	grid = malloc(sizeof(t_grid));
 	if (grid == NULL)
 		return (NULL);
-	grid->coords = NULL;
+	ft_memset(grid, 0, sizeof(t_grid));
+	/*grid->coords = NULL;
 	grid->max_depth = 0;
 	grid->min_depth = 0;
-	grid->height = 0;
+	grid->height = 0;*/
 	grid->default_colors = 1;
 	parse_file(file, grid);
 	if (grid->default_colors == 1)
