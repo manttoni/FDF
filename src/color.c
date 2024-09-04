@@ -36,12 +36,12 @@ void	set_colors(t_grid *grid)
 			if (c->z < 0 && grid->min_depth != 0)
 			{
 				color_change = 255 - 255 * c->z / grid->min_depth;
-				c->color = color_change << 16 | 255 << 8 | 255;
+				c->color = color_change << 16 | color_change << 8 | color_change;
 			}
 			if (c->z > 0 && grid->max_depth != 0)
 			{
 				color_change = 255 - 255 * c->z / grid->max_depth;
-				c->color = 255 << 16 | 255 << 8 | color_change;
+				c->color = color_change << 16 | color_change << 8 | color_change;
 			}
 			x++;
 		}
