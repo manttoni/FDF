@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 12:45:11 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/27 14:58:35 by amaula           ###   ########.fr       */
+/*   Updated: 2024/09/04 12:25:16 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,6 @@ static void	color_pixel(t_data *data, t_coord pixel, int color)
 			*(int *)(data->image->img_data + pixel_index) = color;
 }
 
-void	swap(t_coord *a, t_coord *b)
-{
-	t_coord	tmp;
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
-}
-
 static void	draw_line(t_data *data, t_coord start, t_coord end)
 {
 	t_bresenham	*b;
@@ -72,15 +64,13 @@ static void	draw_line(t_data *data, t_coord start, t_coord end)
 			break ;
 		b->e2 = 2 * b->err;
 		if (b->e2 >= b->dy)
-		{
 			b->err += b->dy;
+		if (b->e2 >= b->dy)
 			start.x += b->sx;
-		}
 		if (b->e2 <= b->dx)
-		{
 			b->err += b->dx;
+		if (b->e2 <= b->dx)
 			start.y += b->sy;
-		}
 	}
 	free(b);
 }
@@ -90,16 +80,16 @@ static void	draw_coords(t_data *data, t_coord start, t_coord end)
 	int	dp;
 	int	line_len;
 	int	size;
-	int	center;
+	int	c;
 
 	size = max(data->grid->width, data->grid->height);
 	line_len = data->size / size + data->zoom * 4;
 	dp = line_len / 10;
-	center = data->size / 2;
-	start.x = (start.x * line_len) - (data->grid->width * line_len) / 2 + center;
-	start.y = (start.y * line_len) - (data->grid->height * line_len) / 2 + center;
-	end.x = (end.x * line_len) - (data->grid->width * line_len) / 2 + center;
-	end.y = (end.y * line_len) - (data->grid->height * line_len) / 2 + center;
+	c = data->size / 2;
+	start.x = (start.x * line_len) - (data->grid->width * line_len) / 2 + c;
+	start.y = (start.y * line_len) - (data->grid->height * line_len) / 2 + c;
+	end.x = (end.x * line_len) - (data->grid->width * line_len) / 2 + c;
+	end.y = (end.y * line_len) - (data->grid->height * line_len) / 2 + c;
 	rotate(data, &start);
 	rotate(data, &end);
 	start.x += data->camera.x * 100;

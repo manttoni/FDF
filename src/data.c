@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 12:06:07 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/27 13:47:51 by amaula           ###   ########.fr       */
+/*   Updated: 2024/09/04 12:29:06 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 int	init_data(t_data *data, int size)
 {
 	t_image	*i;
+	char	*top;
 
+	top = "ARROWS=zoom/rotate, WASD=move, DELETE=reset";
 	data->mlx = mlx_init();
 	if (data->mlx == NULL)
 		return (1);
-	data->win = mlx_new_window(data->mlx, size, size, "ARROWS=zoom/rotate, WASD=move, DELETE=reset");
+	data->win = mlx_new_window(data->mlx, size, size, top);
 	if (data->win == NULL)
 		return (1);
 	data->image = malloc(sizeof(t_image));
@@ -33,10 +35,6 @@ int	init_data(t_data *data, int size)
 	if (i->img_data == NULL)
 		return (1);
 	data->size = size;
-	data->perspective = 0;
-	data->zoom = 0;
-	data->camera.x = 0;
-	data->camera.y = 0;
 	return (0);
 }
 

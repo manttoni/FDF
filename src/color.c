@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   color.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/04 11:20:57 by amaula            #+#    #+#             */
+/*   Updated: 2024/09/04 12:04:21 by amaula           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
 int	hex_parser(char *hex)
@@ -24,7 +36,7 @@ void	set_colors(t_grid *grid)
 	int		y;
 	int		x;
 	t_coord	*c;
-	int		color_change;
+	int		color;
 
 	y = 0;
 	while (y < grid->height)
@@ -34,15 +46,10 @@ void	set_colors(t_grid *grid)
 		{
 			c = &grid->coords[y][x];
 			if (c->z < 0 && grid->min_depth != 0)
-			{
-				color_change = 255 - 255 * c->z / grid->min_depth;
-				c->color = color_change << 16 | color_change << 8 | color_change;
-			}
-			if (c->z > 0 && grid->max_depth != 0)
-			{
-				color_change = 255 - 255 * c->z / grid->max_depth;
-				c->color = color_change << 16 | color_change << 8 | color_change;
-			}
+				color = 255 - 255 * c->z / grid->min_depth;
+			if (c->z >= 0 && grid->max_depth != 0)
+				color = 255 - 255 * c->z / grid->max_depth;
+			c->color = 255 << 16 | color << 8 | color;
 			x++;
 		}
 		y++;
@@ -56,13 +63,13 @@ static void	break_down(t_color *color, int code)
 	color->b = code & 0xFF;
 }
 
-int     get_color(t_coord start, t_coord end, int len)
+int	get_color(t_coord start, t_coord end, int len)
 {
 	double	t;
 	t_color	start_color;
 	t_color	end_color;
 	t_color	pixel_color;
-	
+
 	if (len == 0)
 		return (start.color);
 	break_down(&start_color, start.color);

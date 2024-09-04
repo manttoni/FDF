@@ -1,5 +1,5 @@
 # Source files
-SRCS = color.c boolean.c data.c math.c grid.c draw.c fdf.c
+SRCS = utils.c handle.c color.c boolean.c data.c math.c grid.c draw.c fdf.c
 SRC_DIR = src/
 
 # Object files

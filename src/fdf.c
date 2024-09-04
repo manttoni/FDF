@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:57:24 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/27 13:46:20 by amaula           ###   ########.fr       */
+/*   Updated: 2024/09/04 12:29:33 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,41 +36,14 @@ int	handle_key(int key, t_data *data)
 		exit(0);
 	}
 	if (key == LEFT_ARROW || key == RIGHT_ARROW)
-	{
-		if (key == LEFT_ARROW)
-			data->perspective += 10;
-		else
-			data->perspective--;
-		redraw(data);
-	}
+		change_perspective(data, key);
 	if (key == UP_ARROW || key == DOWN_ARROW)
-	{
-		if (key == UP_ARROW)
-			data->zoom++;
-		else
-			data->zoom--;
-		redraw(data);
-	}
+		change_zoom(data, key);
 	if (key == W || key == A || key == S || key == D)
-	{
-		if (key == W)
-			data->camera.y++;
-		if (key == A)
-			data->camera.x++;
-		if (key == S)
-			data->camera.y--;
-		if (key == D)
-			data->camera.x--;
-		redraw(data);
-	}
+		move_camera(data, key);
 	if (key == DELETE)
-	{
-		data->zoom = 0;
-		data->perspective = 0;
-		data->camera.x = 0;
-		data->camera.y = 0;
-		redraw(data);
-	}
+		reset_all(data);
+	redraw(data);
 	return (0);
 }
 
@@ -79,6 +52,7 @@ int	main(int argc, char **argv)
 	t_data	*data;
 
 	data = malloc(sizeof(t_data));
+	ft_memset(data, 0, sizeof(t_data));
 	if (data == NULL || argc != 2)
 		return (1);
 	data->grid = create_grid(argv[1]);

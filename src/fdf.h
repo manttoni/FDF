@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 14:21:35 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/27 14:44:39 by amaula           ###   ########.fr       */
+/*   Updated: 2024/09/04 12:25:33 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,15 @@
 # define S 115
 # define D 100
 # define DELETE 65535
+
+typedef struct s_file_reader
+{
+	char	*file;
+	char	*ptr;
+	char	*line;
+	int		x;
+	int		fd;
+}	t_file_reader;
 
 typedef struct s_color
 {
@@ -90,9 +99,14 @@ typedef struct s_data
 	t_image	*image;
 }	t_data;
 
+void	swap(t_coord *a, t_coord *b);
+void	change_perspective(t_data *data, int key);
+void	change_zoom(t_data *data, int key);
+void	move_camera(t_data *data, int key);
+void	reset_all(t_data *data);
 int		hex_parser(char *hex);
 int		is_visible(int size, t_coord start, t_coord end);
-void		set_colors(t_grid *grid);
+void	set_colors(t_grid *grid);
 int		get_color(t_coord current, t_coord end, int len);
 int		init_data(t_data *data, int size);
 void	free_data(t_data *data);
@@ -101,6 +115,5 @@ int		max(int a, int b);
 int		min(int a, int b);
 t_grid	*create_grid(char *file);
 void	draw_grid(t_data *data);
-void	print_error(char *error_message);
 
 #endif

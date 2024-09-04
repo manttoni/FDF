@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 13:19:16 by amaula            #+#    #+#             */
-/*   Updated: 2024/08/27 12:19:12 by amaula           ###   ########.fr       */
+/*   Updated: 2024/09/04 11:40:56 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,21 @@ static t_coord	**ft_realloc(t_coord **old_ptr, size_t old_size)
 	return (new_ptr);
 }
 
-
-static void	set_coord_values(t_grid *grid, int x, int y, char *ptr)
+/*sr = strchr result with ',' to make it short for norminette
+  sv = set coordinate values for same reason*/
+static void	sv(t_grid *grid, int x, int y, char *ptr)
 {
-	int	z;
+	int		z;
 	char	*color;
-	int	c;
+	int		c;
+	char	*sr;
 
 	grid->coords[y][x].color = 0xFFFFFF;
-	if (ft_strchr(ptr, ','))
+	sr = ft_strchr(ptr, ',');
+	if (sr)
 	{
 		grid->default_colors = 0;
-		color = ft_substr(ptr, ft_strchr(ptr, ',') + 1 - ptr, ft_strchr(ptr, ' ') - 1 - ptr);
+		color = ft_substr(ptr, sr + 1 - ptr, ft_strchr(ptr, ' ') - 1 - ptr);
 		c = hex_parser(color);
 		if (c != -1)
 			grid->coords[y][x].color = c;
@@ -74,33 +77,30 @@ static void	set_coord_values(t_grid *grid, int x, int y, char *ptr)
 
 static void	parse_file(char *file, t_grid *grid)
 {
-	int		fd;
-	char	*line;
-	char	*ptr;
-	int		x;
+	t_file_reader	file_reader;
 
-	fd = open(file, O_RDONLY);
-	line = get_next_line(fd);
-	grid->width = count_width(line);
-	while (line)
+	file_reader.fd = open(file, O_RDONLY);
+	file_reader.line = get_next_line(file_reader.fd);
+	grid->width = count_width(file_reader.line);
+	while (file_reader.line)
 	{
 		grid->coords = ft_realloc(grid->coords, grid->height++);
-		ptr = line;
-		x = 0;
+		file_reader.ptr = file_reader.line;
+		file_reader.x = 0;
 		grid->coords[grid->height - 1] = malloc(grid->width * sizeof(t_coord));
-		while (x < grid->width)
+		while (file_reader.x < grid->width)
 		{
-			set_coord_values(grid, x++, grid->height - 1, ptr);
-			ptr = ft_strchr(ptr, ' ');
-			if (ptr == NULL)
+			sv(grid, file_reader.x++, grid->height - 1, file_reader.ptr);
+			file_reader.ptr = ft_strchr(file_reader.ptr, ' ');
+			if (file_reader.ptr == NULL)
 				break ;
-			while (*ptr == ' ')
-				ptr++;
+			while (*(file_reader.ptr) == ' ')
+				file_reader.ptr++;
 		}
-		free(line);
-		line = get_next_line(fd);
+		free(file_reader.line);
+		file_reader.line = get_next_line(file_reader.fd);
 	}
-	close(fd);
+	close(file_reader.fd);
 }
 
 t_grid	*create_grid(char *file)
@@ -111,10 +111,6 @@ t_grid	*create_grid(char *file)
 	if (grid == NULL)
 		return (NULL);
 	ft_memset(grid, 0, sizeof(t_grid));
-	/*grid->coords = NULL;
-	grid->max_depth = 0;
-	grid->min_depth = 0;
-	grid->height = 0;*/
 	grid->default_colors = 1;
 	parse_file(file, grid);
 	if (grid->default_colors == 1)
