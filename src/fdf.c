@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:57:24 by amaula            #+#    #+#             */
-/*   Updated: 2024/09/16 13:01:39 by amaula           ###   ########.fr       */
+/*   Updated: 2024/09/16 13:10:16 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,9 @@ int	handle_key(int key, t_data *data)
 
 static int	validate(int argc, char **argv)
 {
-	int	fd;
-	int	len;
+	int		fd;
+	int		len;
+	char	*filetype;
 
 	if (argc != 2)
 	{
@@ -59,12 +60,14 @@ static int	validate(int argc, char **argv)
 	}
 	len = ft_strlen(argv[1]);
 	fd = open(argv[1], O_RDONLY);
-	if (fd < 0 || ft_strncmp(ft_substr(argv[1], len - 4, 4), ".fdf", len) != 0)
+	filetype = ft_substr(argv[1], len - 4, 4);
+	if (fd < 0 || ft_strncmp(filetype, ".fdf", 4) != 0)
 	{
 		ft_printf("File is not valid.\n");
 		close(fd);
 		return (0);
 	}
+	free(filetype);
 	close(fd);
 	return (1);
 }
