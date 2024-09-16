@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:57:24 by amaula            #+#    #+#             */
-/*   Updated: 2024/09/13 15:05:15 by amaula           ###   ########.fr       */
+/*   Updated: 2024/09/16 13:01:39 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,16 @@ int	handle_key(int key, t_data *data)
 static int	validate(int argc, char **argv)
 {
 	int	fd;
+	int	len;
 
 	if (argc != 2)
 	{
 		ft_printf("Wrong amount of arguments. Correct amount: 1\n");
 		return (0);
 	}
+	len = ft_strlen(argv[1]);
 	fd = open(argv[1], O_RDONLY);
-	if (fd < 0)
+	if (fd < 0 || ft_strncmp(ft_substr(argv[1], len - 4, 4), ".fdf", len) != 0)
 	{
 		ft_printf("File is not valid.\n");
 		close(fd);
