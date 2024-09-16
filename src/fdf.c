@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:57:24 by amaula            #+#    #+#             */
-/*   Updated: 2024/09/04 12:29:33 by amaula           ###   ########.fr       */
+/*   Updated: 2024/09/13 15:05:15 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,32 @@ int	handle_key(int key, t_data *data)
 	return (0);
 }
 
+static int	validate(int argc, char **argv)
+{
+	int	fd;
+
+	if (argc != 2)
+	{
+		ft_printf("Wrong amount of arguments. Correct amount: 1\n");
+		return (0);
+	}
+	fd = open(argv[1], O_RDONLY);
+	if (fd < 0)
+	{
+		ft_printf("File is not valid.\n");
+		close(fd);
+		return (0);
+	}
+	close(fd);
+	return (1);
+}
+
 int	main(int argc, char **argv)
 {
 	t_data	*data;
 
+	if (validate(argc, argv) == 0)
+		return (0);
 	data = malloc(sizeof(t_data));
 	ft_memset(data, 0, sizeof(t_data));
 	if (data == NULL || argc != 2)
