@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 13:19:16 by amaula            #+#    #+#             */
-/*   Updated: 2024/09/04 11:40:56 by amaula           ###   ########.fr       */
+/*   Updated: 2024/09/20 15:47:10 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,8 @@ static void	sv(t_grid *grid, int x, int y, char *ptr)
 	grid->coords[y][x].x = x;
 }
 
-static void	parse_file(char *file, t_grid *grid)
+int	parse_file(t_file_reader file_reader, t_grid *grid)
 {
-	t_file_reader	file_reader;
-
-	file_reader.fd = open(file, O_RDONLY);
-	file_reader.line = get_next_line(file_reader.fd);
 	grid->width = count_width(file_reader.line);
 	while (file_reader.line)
 	{
@@ -101,18 +97,34 @@ static void	parse_file(char *file, t_grid *grid)
 		file_reader.line = get_next_line(file_reader.fd);
 	}
 	close(file_reader.fd);
+	return (1);
 }
 
 t_grid	*create_grid(char *file)
 {
-	t_grid	*grid;
+	t_grid			*grid;
+	t_file_reader	file_reader;
 
 	grid = malloc(sizeof(t_grid));
 	if (grid == NULL)
 		return (NULL);
 	ft_memset(grid, 0, sizeof(t_grid));
 	grid->default_colors = 1;
-	parse_file(file, grid);
+	file_reader.fd = open(file, O_RDONLY);
+	file_reader.line = get_next_line(file_reader.fd);
+	if (file_reader.line == NULL)
+	{
+		ft_printf("File is empty.\n");
+		free(file_reader.line);
+		close(file_reader.fd);
+		free(grid);
+		return (NULL);
+	}
+	if (parse_file(file_reader, grid) == 0)
+	{
+		free(grid);
+		return (NULL);
+	}
 	if (grid->default_colors == 1)
 		set_colors(grid);
 	return (grid);

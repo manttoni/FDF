@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 12:06:07 by amaula            #+#    #+#             */
-/*   Updated: 2024/09/04 12:29:06 by amaula           ###   ########.fr       */
+/*   Updated: 2024/09/20 13:03:34 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,13 @@ void	free_data(t_data *data)
 	int	i;
 
 	i = 0;
-	while (i < data->grid->height)
+	while (data->grid && i < data->grid->height)
 	{
 		free(data->grid->coords[i]);
 		i++;
 	}
-	free(data->grid->coords);
+	if (data->grid)
+		free(data->grid->coords);
 	free(data->grid);
 	mlx_destroy_image(data->mlx, data->image->img);
 	mlx_destroy_window(data->mlx, data->win);

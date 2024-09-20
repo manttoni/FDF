@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:57:24 by amaula            #+#    #+#             */
-/*   Updated: 2024/09/16 13:10:16 by amaula           ###   ########.fr       */
+/*   Updated: 2024/09/20 13:10:46 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static int	validate(int argc, char **argv)
 	if (fd < 0 || ft_strncmp(filetype, ".fdf", 4) != 0)
 	{
 		ft_printf("File is not valid.\n");
+		free(filetype);
 		close(fd);
 		return (0);
 	}
@@ -80,10 +81,15 @@ int	main(int argc, char **argv)
 		return (0);
 	data = malloc(sizeof(t_data));
 	ft_memset(data, 0, sizeof(t_data));
-	if (data == NULL || argc != 2)
+	if (data == NULL)
 		return (1);
 	data->grid = create_grid(argv[1]);
-	if (data->grid == NULL || init_data(data, 1500) == 1)
+	if (data->grid == NULL)
+	{
+		free(data);
+		return (1);
+	}
+	if (init_data(data, 1500) == 1)
 	{
 		free_data(data);
 		return (1);
